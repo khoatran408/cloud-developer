@@ -9,7 +9,7 @@ import { stringify } from 'querystring';
   const app = express();
 
   // Set the network port
-  const port = process.env.PORT || 8082;
+  const port = process.env.PORT || 80;
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
@@ -41,16 +41,17 @@ import { stringify } from 'querystring';
     if(!image_url) {
       return res.status(400).send("Need a valid URL");
     }  
+
     let filteredpath = filterImageFromURL( image_url );
     res.status(200).sendFile( await filteredpath );
-    deleteLocalFiles(filteredpath);
+    //deleteLocalFiles("/tmp/filtered.*.jpg");
     
   } );
 
-  // app.get( "/", async ( req, res ) => {
-  //   res.send("try GET /filteredimage?image_url={{}}")
+   app.get( "/", async ( req, res ) => {
+     res.send("try GET /filteredimage?image_url={{}}")
     
-  // } );
+   } );
   
 
   // Start the Server
